@@ -2,6 +2,7 @@ package com.example.videolist.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.ConstrainedFieldPosition
 import android.icu.text.Transliterator
 import android.net.Uri
 import android.util.Log
@@ -49,6 +50,11 @@ class SocialVideoAdapter(val mainActivity: MainActivity, val socialVideoAdapterC
         this.listItem=listItem
         notifyItemRangeInserted(startIndex, endIndex)
     }
+    fun updateItem(item: FeedItem,itemPosition: Int,state:String) {
+        notifyItemChanged(itemPosition,state)
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -62,7 +68,19 @@ class SocialVideoAdapter(val mainActivity: MainActivity, val socialVideoAdapterC
 
     }
 
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        super.onBindViewHolder(holder, position, payloads)
+        if (payloads.isNotEmpty()){
+            when(payloads.first() as? String){
+                    "play"->{
+                        holder.action(ExtensionInfo(SelectiveAction.ATTACHED_WIN), null, null)
+                    }
+                    "pause"->{
+                        holder.action(ExtensionInfo(SelectiveAction.ATTACHED_LOST), null, null)
+                    }
+                }
+            }
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val itemData = listItem[position]
         Log.d(TAG, "TestBind pos $position")
@@ -300,7 +318,7 @@ class SocialVideoAdapter(val mainActivity: MainActivity, val socialVideoAdapterC
         fun preparedPlayer(videoUrl: String?,context: Context){
             val uri=Uri.parse(videoUrl)
             val dataSourceFactory = cacheDataSourceFactory
-           val mediaSource= HlsMediaSource.Factory(DefaultDataSource.Factory(context))//DefaultDataSource.Factory(context)
+           val mediaSource= HlsMediaSource.Factory(dataSourceFactory)//DefaultDataSource.Factory(context)
                 //.setStreamKeys(cacheStreamKeys)
                 .setAllowChunklessPreparation(true)
                 .createMediaSource(MediaItem.fromUri(uri))
