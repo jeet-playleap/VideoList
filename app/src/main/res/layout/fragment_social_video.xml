@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.media3.ui.PlayerView
+        android:id="@+id/socialVideoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:resize_mode="fixed_height"
+        app:surface_type="texture_view"
+        app:use_controller="false"
+        app:use_artwork="true"
+        app:show_buffering="always"
+
+        />
+    <ImageView
+        android:id="@+id/ivThumbnailView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:resize_mode="fixed_height"
+        app:surface_type="texture_view"
+        android:scaleType="centerCrop"
+        app:use_controller="false" />
+    <View
+        android:id="@+id/view"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <!--<ProgressBar
+        android:id="@+id/pb_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:gravit="center"
+        android:indeterminate="true"
+        android:indeterminateTint="#036E07"
+        android:visibility="gone" />-->
+
+      <ProgressBar
+          android:id="@+id/progress"
+           android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:indeterminate="true"
+          android:indeterminateTint="#036E07"
+          android:visibility="gone" />
+
+
+
+
+
+
+
+</RelativeLayout>
