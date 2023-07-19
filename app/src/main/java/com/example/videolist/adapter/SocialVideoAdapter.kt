@@ -74,11 +74,18 @@ class SocialVideoAdapter(val mainActivity: MainActivity, val socialVideoAdapterC
                // playSocialVideo(videoItem.reference, "m3u8")
                // preparedPlayer(videoItem.reference,mainActivity)
             }
+        binding.view.setOnClickListener {
 
-        binding.view.setOnLongClickListener {
-            socialVideoAdapterCallback.showDialog(itemData)
-            return@setOnLongClickListener true
         }
+            binding.apply {
+                view.setOnClickListener {
+                    socialVideoView.player?.playWhenReady=socialVideoView.player?.isPlaying!=true
+                }
+                view.setOnLongClickListener {
+                    socialVideoAdapterCallback.showDialog(itemData)
+                    return@setOnLongClickListener true
+                }
+            }
 
         }
     }
@@ -293,7 +300,7 @@ class SocialVideoAdapter(val mainActivity: MainActivity, val socialVideoAdapterC
         fun preparedPlayer(videoUrl: String?,context: Context){
             val uri=Uri.parse(videoUrl)
             val dataSourceFactory = cacheDataSourceFactory
-           val mediaSource= HlsMediaSource.Factory(DefaultDataSource.Factory(context))
+           val mediaSource= HlsMediaSource.Factory(DefaultDataSource.Factory(context))//DefaultDataSource.Factory(context)
                 //.setStreamKeys(cacheStreamKeys)
                 .setAllowChunklessPreparation(true)
                 .createMediaSource(MediaItem.fromUri(uri))
