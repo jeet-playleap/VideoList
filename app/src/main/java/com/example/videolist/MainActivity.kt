@@ -300,7 +300,10 @@ class MainActivity : AppCompatActivity() {
                 if (newState==RecyclerView.SCROLL_STATE_IDLE){
                      position=(recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
                     lifecycleScope.launch(Dispatchers.Default) {
-                        queue.get(position).cancel()
+                        if (queue.size>position&&position>=0){
+                            queue.get(position).cancel()
+                        }
+
                         if (fragList.size==10&&(position+4)==queue.size){
 
                             if (fragList.size>=queue.size){
