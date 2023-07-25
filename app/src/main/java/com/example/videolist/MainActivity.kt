@@ -198,14 +198,13 @@ class MainActivity : AppCompatActivity() {
                             //ivWilli.visibilityGone()
                             for ((i, streams_videos) in it.feeds.withIndex()) {
 
-/*
-                                if (i<5){
+                             /*   if (i<5){
                                     val url=streams_videos.videos.first().reference
                                     val uri=Uri.parse( url)
                                     val downloader=getHls(uri)
                                     queue.add(downloader)
                                     lifecycleScope.launch {
-                                        //preCacheVideo(uri,i,downloader)
+                                        preCacheVideo(uri,i,downloader)
                                     }
                                 }
                                 else if (i<3&&!loadingFirst){
@@ -214,10 +213,9 @@ class MainActivity : AppCompatActivity() {
                                     val downloader=getHls(uri)
                                     queue.add(downloader)
                                     lifecycleScope.launch {
-                                       // preCacheVideo(uri,i,downloader)
+                                        preCacheVideo(uri,i,downloader)
                                     }
-                                }
-*/
+                                }*/
 
                                 fragList.add(streams_videos)
                                 cacheStreamKeys.add(StreamKey(fragList.size - 1, 1))
@@ -301,7 +299,7 @@ class MainActivity : AppCompatActivity() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState==RecyclerView.SCROLL_STATE_IDLE){
                     val position=(recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-/*
+                  /*  queue.get(position).cancel()
                     if (fragList.size==10&&(position+4)==queue.size){
 
                         if (fragList.size>=queue.size){
@@ -326,8 +324,7 @@ class MainActivity : AppCompatActivity() {
                             }
                             queue.add(downloader)
                         }
-                    }
-*/
+                    }*/
                     Log.e(
                         TAG,
                         "onPageSelected $position,$currentCallPos, "
@@ -348,7 +345,7 @@ class MainActivity : AppCompatActivity() {
                             TAG,
                             "onScroll ${linearLayoutManager.findLastVisibleItemPosition()}, , ,   max $maxValue ${linearLayoutManager.itemCount}"
                         )
-                        if (  maxValue > linearLayoutManager.itemCount - 4) {
+                        if (  maxValue > linearLayoutManager.itemCount - 8) {
                             //bottom of list!
                             //liveFragmentAdapter?.addData(LiveFragmentAdapter.ViewType.PROGRESS_BAR,fullDataList.size)
                             loadingFirst = false

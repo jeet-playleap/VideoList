@@ -106,24 +106,27 @@ class SocialVideoRecyclerView : RecyclerView {
         val viewHolder=getChildViewHolder(child)
 
         if (viewHolder is ViewHolderExtension) {
-            /*if (tempDetached==null){
-                tempDetached=viewHolder
-                return
-            }*/
-
-           /* var isDownScrollEnable=false
-            lastDettacheItemUp.forEach {
-                if (viewHolder.getItemPosition()+1>it.getItemPosition()){
-                    isDownScrollEnable=true
-                }
-            }*/
+            viewHolder.action(ExtensionInfo(SelectiveAction.ATTACHED_LOST), null, null)
             val data = (adapter as SocialVideoAdapter).listItem[viewHolder.getItemPosition()?:0]
             currentAttachItemCount--
-             if (viewHolder.getItemPosition()>firstCompletelyVisible&&viewHolder.getItemPosition()<=firstCompletelyVisible+2){
-               /* viewHolder.action(ExtensionInfo(SelectiveAction.DETACHED), data, null)
-                lastDettacheItemUp.remove(viewHolder)
-                Log.e(TAG,"1onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemUp}")
-*/
+            val tempList=ArrayList<ViewHolderExtension>()
+            lastDettacheItemUp.add(viewHolder)
+           val filterList= lastDettacheItemUp.filter {
+                it.getItemPosition()>firstCompletelyVisible+2||firstCompletelyVisible-2>it.getItemPosition()
+
+            }
+            filterList.forEach {
+                if (firstCompletelyVisible==0&&it.getItemPosition()>0){
+
+                }else{
+                    it.action(ExtensionInfo(SelectiveAction.DETACHED), null, null)
+                    Log.e(TAG,"1onChildDetached${it?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemUp}")
+                    lastDettacheItemUp.remove(it)
+                }
+            }
+
+
+         /*    if (viewHolder.getItemPosition()>firstCompletelyVisible&&viewHolder.getItemPosition()<=firstCompletelyVisible+2){
                  if (lastDettacheItemUp.size>2){
                      val firstViewHolder=lastDettacheItemUp.firstOrNull()
                      Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} ")
@@ -135,10 +138,6 @@ class SocialVideoRecyclerView : RecyclerView {
                  Log.e(TAG,"1onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemUp}")
 
              }else if (viewHolder.getItemPosition()<firstCompletelyVisible&&viewHolder.getItemPosition()>=firstCompletelyVisible-2){
-                /* viewHolder.action(ExtensionInfo(SelectiveAction.DETACHED), data, null)
-                 lastDettacheItemDown.remove(viewHolder)
-                 Log.e(TAG,"2onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemUp}")
-*/
                  if (lastDettacheItemDown.size>2){
                      val firstViewHolder=lastDettacheItemDown.firstOrNull()
                      Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} ")
@@ -154,44 +153,13 @@ class SocialVideoRecyclerView : RecyclerView {
                  lastDettacheItemDown.add(viewHolder)
                  lastDettacheItemUp.add(viewHolder)
                  Log.e(TAG,"3onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ,up${lastDettacheItemUp.size},down ${lastDettacheItemDown.size}")
-                 /*if (lastDettacheItemDown.size>2){
-                     val firstViewHolder=lastDettacheItemDown.firstOrNull()
-                     Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} ")
-                     if (firstCompletelyVisible!=firstViewHolder?.getItemPosition()){
-                         firstViewHolder?.action(ExtensionInfo(SelectiveAction.DETACHED), data, null)
-                     }
-                     lastDettacheItemDown.remove(firstViewHolder)
-                 }
-                 if (lastDettacheItemUp.size>2){
-                     val firstViewHolder=lastDettacheItemUp.firstOrNull()
-                     Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} ")
-                     if (firstCompletelyVisible!=firstViewHolder?.getItemPosition()){
-                         firstViewHolder?.action(ExtensionInfo(SelectiveAction.DETACHED), data, null)
-                     }
-                     lastDettacheItemUp.remove(firstViewHolder)
-                 }*/
              }
 
-             /*else if (lastDettacheItemUp.size>4){
-                val firstViewHolder=lastDettacheItemUp.firstOrNull()
-                Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} ")
-                firstViewHolder?.action(ExtensionInfo(SelectiveAction.DETACHED), data, null)
-                lastDettacheItemUp.remove(firstViewHolder)
-                viewHolder.action(ExtensionInfo(SelectiveAction.ATTACHED_LOST), null, null)
-                lastDettacheItemUp.add(viewHolder)
-                Log.e(TAG,"2onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemUp}")
-
-            }*/
             else{
                  viewHolder.action(ExtensionInfo(SelectiveAction.DETACHED), data, null)
                  lastDettacheItemUp.remove(viewHolder)
                  lastDettacheItemDown.remove(viewHolder)
                  Log.e(TAG,"3onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemDown.size}")
-
-                 /* viewHolder.action(ExtensionInfo(SelectiveAction.ATTACHED_LOST), null, null)
-                  lastDettacheItemUp.add(viewHolder)
-                  Log.e(TAG,"3onChildDetached${viewHolder?.getItemPosition()} $firstCompletelyVisible ${lastDettacheItemUp.size},${lastDettacheItemUp}")
-  */
             }
 
             if (isUpScrollEnable && firstItemRender ){
@@ -223,34 +191,8 @@ class SocialVideoRecyclerView : RecyclerView {
                     lastDettacheItemUp.remove(it)
                 }
 
-            }
+            }*/
             viewHolderExtensions.remove(viewHolder)
-/*
-            if (!isDownScrollEnable){
-                lastDettacheItemUp.addFirst(viewHolder)
-                Log.e(TAG,"onChild${viewHolder.getItemPosition()} Went To Detached  isUpScrollEnable")
-                if (lastDettacheItemUp.size>=4){
-                    val firstViewHolder=lastDettacheItemUp.lastOrNull()
-                    firstViewHolder?.action(ExtensionInfo(SelectiveAction.DETACHED), null, null)
-                    // lastDettacheItem.remove(viewHolder)
-                    lastDettacheItemUp.remove(firstViewHolder)
-                    Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} isUpScrollEnable  findFirstVisbileItem: $findFirstVisbileItem, lastVisibilItem: $lastVisibilItem ")
-                }
-                lastDettacheItemDown.clear()
-            }else  {
-                lastDettacheItemDown.addFirst(viewHolder)
-                Log.e(TAG,"onChild${viewHolder.getItemPosition()} Went To Detached isDownScrollEnable ")
-
-                if (lastDettacheItemDown.size>=4){
-                    val firstViewHolder=lastDettacheItemDown.firstOrNull()
-                    firstViewHolder?.action(ExtensionInfo(SelectiveAction.DETACHED), null, null)
-                    // lastDettacheItem.remove(viewHolder)
-                    lastDettacheItemDown.remove(firstViewHolder)
-                    Log.e(TAG,"onChildDetached${firstViewHolder?.getItemPosition()} isDownScrollEnable findFirstVisbileItem: $findFirstVisbileItem, lastVisibilItem: $lastVisibilItem ")
-                }
-                lastDettacheItemUp.clear()
-            }
-*/
         }
     }
 
